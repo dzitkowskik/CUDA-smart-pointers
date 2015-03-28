@@ -1,11 +1,11 @@
-#include "../cuda_scoped_ptr.hpp"
+#include "../cuda_shared_ptr.hpp"
 #include "test_object.h"
 #include <gtest/gtest.h>
 
-class CudaScopedPtrTest : public testing::Test
+class CudaSharedPtrTest : public testing::Test
 {
 protected:
-    CudaScopedPtrTest()
+    CudaSharedPtrTest()
     {
         nullTestObject = nullptr;
     }
@@ -27,29 +27,29 @@ protected:
     TestObject* nullTestObject;
 };
 
-TEST_F(CudaScopedPtrTest, DefaultConstructorNullPointer)
+TEST_F(CudaSharedPtrTest, DefaultConstructorNullPointer)
 {
-  cuda_scoped_ptr<TestObject> ptr(nullptr);
+  cuda_shared_ptr<TestObject> ptr(nullptr);
   EXPECT_EQ(nullTestObject, ptr.get());
 }
 
-TEST_F(CudaScopedPtrTest, DefaultConstructorZero)
+TEST_F(CudaSharedPtrTest, DefaultConstructorZero)
 {
     size_t n = 0;
-    cuda_scoped_ptr<TestObject> ptr(n);
+    cuda_shared_ptr<TestObject> ptr(n);
     EXPECT_EQ(nullTestObject, ptr.get());
 }
 
-TEST_F(CudaScopedPtrTest, PointerConstructorEqualsPointer)
+TEST_F(CudaSharedPtrTest, PointerConstructorEqualsPointer)
 {
   TestObject* to = createSampleTestObject();
-  cuda_scoped_ptr<TestObject> ptr(to);
+  cuda_shared_ptr<TestObject> ptr(to);
   EXPECT_EQ(to, ptr.get());
 }
 
-TEST_F(CudaScopedPtrTest, ResetClearsPointer)
+TEST_F(CudaSharedPtrTest, ResetClearsPointer)
 {
-  cuda_scoped_ptr<TestObject> ptr(createSampleTestObject());
+  cuda_shared_ptr<TestObject> ptr(createSampleTestObject());
   EXPECT_NE(nullTestObject, ptr.get());
   ptr.reset(nullptr);
   EXPECT_EQ(nullTestObject, ptr.get());
